@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Home - Professional Cleaning Services</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="lg.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f9fcfb;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e6f7f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00c6a7, #0072ff);
+            border-radius: 5px;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        #loader i {
+            font-size: 3.5rem;
+            color: #00c6a7;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        /* Navbar */
+        nav {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffcc;
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0072ff;
+        }
+
+        nav .logo span {
+            color: #00c6a7;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #1a1a1a;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0072ff;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: #ffffffcc;
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            text-decoration: none;
+            font-weight: 500;
+            color: #1a1a1a;
+            padding: 10px 0;
+            transition: 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #0072ff;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            background: linear-gradient(135deg, #e6f7f5, #f9fcfb);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .hero.show {
+            opacity: 1;
+        }
+
+        .hero-text {
+            max-width: 50%;
+            animation: fadeUp 1.2s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-text h5 {
+            color: #00c6a7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .hero-text h1 span {
+            color: #0072ff;
+        }
+
+        .hero-text p {
+            margin-bottom: 30px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-text .btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btns a {
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00c6a7, #0072ff);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #0072ff;
+            color: #0072ff;
+        }
+
+        .btn-secondary:hover {
+            background: #0072ff;
+            color: #fff;
+        }
+
+        /* Hero Image */
+        .hero-img {
+            max-width: 45%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.2);
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 0.3s;
+        }
+
+        .hero-img img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+        }
+
+        .about-heading {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-heading h5 {
+            color: #00c6a7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .about-heading h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0072ff;
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.2s;
+        }
+
+        .about-heading h2::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: #00c6a7;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1200px;
+        }
+
+        .about-text {
+            flex: 1;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 0.4s;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards 0.6s;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.2);
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 80px 8%;
+            background: #f9fcfb;
+        }
+
+        .services-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .services-heading h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0072ff;
+            margin-bottom: 10px;
+        }
+        
+        .services-heading p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background-color: #f7f9fc;
+            border: 1px solid #e0e6f0;
+            border-radius: 15px;
+            padding: 40px 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            background-color: #e6f7f5;
+            color: #00c6a7;
+            border-radius: 50%;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            background-color: #00c6a7;
+            color: #fff;
+        }
+        
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        
+        .service-card p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .service-card a {
+            color: #0072ff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .service-card a:hover {
+            color: #005bb5;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 8%;
+            background: #fff;
+        }
+
+        .contact-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-heading h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0072ff;
+            margin-bottom: 10px;
+        }
+        
+        .contact-heading p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info, .contact-form {
+            flex: 1;
+            padding: 40px;
+            background-color: #f7f9fc;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-info h3, .contact-form h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .info-item i {
+            font-size: 1.2rem;
+            color: #00c6a7;
+            margin-right: 15px;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e6f0;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #1a1a1a;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #0072ff;
+        }
+        
+        .btn-submit {
+            padding: 15px 30px;
+            border: none;
+            background: linear-gradient(90deg, #00c6a7, #0072ff);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* Footer Section */
+        footer {
+            background: #0072ff;
+            color: #f7f9fc;
+            padding: 50px 8%;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background-color: #00c6a7;
+        }
+
+        .footer-col .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .footer-col .logo span {
+            color: #00c6a7;
+        }
+
+        .footer-col p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #f7f9fc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #00c6a7;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #00c6a7;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+        .footer-bottom a {
+            color: #00c6a7;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media(max-width: 992px) {
+            nav ul {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .hero-text {
+                max-width: 100%;
+                margin-bottom: 40px;
+            }
+
+            .hero-img {
+                max-width: 80%;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .about-section {
+              padding-left: 5%;
+              padding-right: 5%;
+            }
+
+            .about-text,
+            .about-image {
+                max-width: 100%;
+            }
+
+            .about-image {
+                margin-top: 20px;
+            }
+            
+            .services-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 576px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btns a {
+                width: 100%;
+            }
+
+            .about-heading h2,
+            .services-heading h2,
+            .contact-heading h2 {
+                font-size: 2rem;
+            }
+            
+            .services-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <i class="fas fa-broom"></i>
+    </div>
+
+    <nav>
+        <div class="logo">Clean<span>Home</span></div>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+    
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <section class="hero" id="hero">
+        <div class="hero-text">
+            <h5>Welcome to Clean Home</h5>
+            <h1>Professional <span>Cleaning Services</span> for Your Space</h1>
+            <p>
+                We bring freshness and sparkle to your home and workplace. From deep cleaning to routine care,
+                our expert team ensures a healthy, spotless, and stress-free environment.
+            </p>
+            <div class="btns">
+                <a href="http://wa.me/+94777877617" target="_blank" class="btn-primary"><i class="fas fa-play"></i> Get Started</a>
+                <a href="https://web.facebook.com/p/Clean-Home-Cleaning-Manpower-Solutions-100057675900855/?_rdc=1&_rdr#" target="_blank" class="btn-secondary"><i class="fas fa-info-circle"></i> Learn More</a>
+            </div>
+        </div>
+        <div class="hero-img">
+            <img src="e.jpg"
+                alt="Team Work">
+        </div>
+    </section>
+    
+    <section class="about-section" id="about">
+        <div class="about-heading">
+            <h5>Our Story</h5>
+            <h2>About <span>Clean Home</span></h2>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Our Mission</h3>
+                <p>
+                    At Clean Home, we believe a clean space is a happy space. Our mission is to provide exceptional cleaning services that go beyond the surface, creating a healthy and refreshing environment for our clients. We use eco-friendly products and meticulous techniques to ensure every corner of your home or office sparkles.
+                </p>
+                <p>
+                    Founded on the principles of trust and excellence, we are dedicated to delivering personalized service with a professional touch. Your satisfaction is our top priority, and we're committed to making your life cleaner and simpler.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="d.jpg" alt="A clean and modern living room">
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="services">
+        <div class="services-heading">
+            <h2>Our Services</h2>
+            <p>
+                We provide a wide range of professional cleaning services tailored to your specific needs.
+            </p>
+        </div>
+        <div class="services-container">
+            <!-- Service Card 1 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <h3>Standard Cleaning</h3>
+                <p>
+                    Our basic package for regular upkeep. Includes dusting, vacuuming, mopping, and tidying. Perfect for maintaining a spotless home.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+            <!-- Service Card 2 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-spray-can"></i>
+                </div>
+                <h3>Deep Cleaning</h3>
+                <p>
+                    A thorough and comprehensive cleaning service for every nook and cranny. We clean behind appliances and get into hard-to-reach areas.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+            <!-- Service Card 3 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <h3>Move-In/Out</h3>
+                <p>
+                    Take the stress out of moving. We'll handle the cleaning, leaving your old or new place sparkling clean for a fresh start.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+            <!-- Service Card 4 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>Commercial Cleaning</h3>
+                <p>
+                    Professional cleaning solutions for offices and businesses. Create a healthy and productive environment for your employees and clients.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+            <!-- Service Card 5 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-couch"></i>
+                </div>
+                <h3>Upholstery Cleaning</h3>
+                <p>
+                    Revitalize your furniture with our expert upholstery cleaning. We remove stains, dirt, and allergens, leaving your couches fresh and clean.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+            <!-- Service Card 6 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa-solid fa-broom-ball"></i>
+                </div>
+                <h3>Window Cleaning</h3>
+                <p>
+                    Get streak-free, sparkling windows. Our team uses specialized tools to clean both interior and exterior windows for a crystal-clear view.
+                </p>
+                <a href="http://wa.me/+94777877617" target="_blank">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-heading">
+            <h2>Contact Us</h2>
+            <p>
+                Ready for a spotless space? Get in touch with us to schedule a service or request a free quote.
+            </p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-form">
+                <h3>Send us a Message</h3>
+                <form>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+            <div class="contact-info">
+                <h3>Our Information</h3>
+                <p>
+                    Feel free to reach out to us through any of the following channels.
+                </p>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Mawanella ,SriLanka</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+9477 787 7617</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>cleanhomeexample@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo">Clean<span>Home</span></div>
+                <p>Providing professional cleaning services to make your space spotless and serene. Your satisfaction is our priority.</p>
+                <div class="social-icons">
+                    <a href="https://web.facebook.com/p/Clean-Home-Cleaning-Manpower-Solutions-100057675900855/?_rdc=1&_rdr#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get Help</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Payment Options</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="#">Mawanella ,SriLanka</a></li>
+                    <li><a href="#">+9477 787 7617</a></li>
+                    <li><a href="#">cleanhomeexample@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 <b>Clean Home</b> Designed and Developed by <b>CloudGrafix</b></p>
+        </div>
+    </footer>
+ 
+    <script>
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+                document.querySelector(".hero").classList.add("show");
+            }, 2000);
+        });
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close the mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
